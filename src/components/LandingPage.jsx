@@ -13,7 +13,7 @@ export default function LandingPage({onOpenDashboard}){
       </div>
 
       <div style={{marginTop:18}}>
-        <button className="btn" onClick={onOpenDashboard}>Open Dashboard</button>
+        <button className="cta" onClick={onOpenDashboard}>Open Dashboard</button>
       </div>
     </section>
   )
