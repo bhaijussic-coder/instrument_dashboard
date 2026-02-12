@@ -29,25 +29,7 @@ export default function MenuDropdown() {
       {/* Menu Button - Unique Floating Design */}
       <button
         onClick={() => setOpen(!open)}
-        style={{
-          background: open 
-            ? 'linear-gradient(135deg, #06b6d4, #0891b2)'
-            : 'rgba(6,182,212,0.1)',
-          border: '1.5px solid rgba(6,182,212,0.3)',
-          color: open ? '#ffffff' : 'var(--accent)',
-          cursor: 'pointer',
-          padding: '10px 14px',
-          borderRadius: '12px',
-          fontWeight: '600',
-          fontSize: '13px',
-          transition: 'all .25s cubic-bezier(0.4,0,0.2,1)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '6px',
-          whiteSpace: 'nowrap',
-          boxShadow: open ? '0 8px 24px rgba(6,182,212,0.3)' : 'none',
-          position: 'relative'
-        }}
+        className={`menu-button ${open ? 'open' : ''}`}
         onMouseEnter={(e) => {
           if (!open) {
             e.currentTarget.style.background = 'rgba(6,182,212,0.15)'
@@ -63,49 +45,27 @@ export default function MenuDropdown() {
           }
         }}
       >
-        <span style={{ fontSize: '16px', display: 'flex' }}>☆</span>
+        <span className="menu-icon">☆</span>
         {isLoggedIn ? user?.username : 'Menu'}
       </button>
 
       {/* Dropdown Menu - Unique Design */}
       {open && (
-        <div
-          style={{
-            position: 'absolute',
-            top: 'calc(100% + 12px)',
-            right: 0,
-            background: 'rgba(255,255,255,0.5)',
-            backdropFilter: 'blur(15px)',
-            border: '1.5px solid rgba(6,182,212,0.15)',
-            borderRadius: '16px',
-            minWidth: '280px',
-            boxShadow: '0 20px 60px rgba(6,182,212,0.12), inset 0 1px 0 rgba(255,255,255,0.8)',
-            zIndex: 1000,
-            animation: 'slideDown .25s cubic-bezier(0.34,1.56,0.64,1)',
-            overflow: 'hidden'
-          }}
-        >
+        <div className="dropdown-menu">
           {/* Menu Header */}
           {isLoggedIn && (
-            <div style={{
-              padding: '12px 16px',
-              background: 'linear-gradient(135deg, rgba(6,182,212,0.08), rgba(8,145,178,0.04))',
-              borderBottom: '1px solid rgba(6,182,212,0.1)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
+            <div className="menu-header">
               <span style={{ fontSize: '18px' }}>👤</span>
               <div>
-                <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--text)' }}>
+                <div className="menu-header-user">
                   {user?.username}
                 </div>
-                <div style={{ fontSize: '11px', color: 'var(--muted)' }}>Logged in</div>
+                <div className="menu-header-status">Logged in</div>
               </div>
             </div>
           )}
 
-          <div style={{ padding: '8px 0' }}>
+          <div className="menu-items">
             {/* Export to PDF */}
             <MenuItemButton
               icon="📄"
@@ -137,7 +97,7 @@ export default function MenuDropdown() {
             />
 
             {/* Divider */}
-            <div style={{ margin: '8px 0', borderTop: '1px solid rgba(6,182,212,0.08)' }} />
+            <div className="menu-divider" />
 
             {/* Login / Logout */}
             {!isLoggedIn ? (
@@ -161,53 +121,16 @@ export default function MenuDropdown() {
 
       {/* Login Modal */}
       {loginModal && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'rgba(0,0,0,0.3)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 2000,
-            backdropFilter: 'blur(4px)'
-          }}
-          onClick={() => setLoginModal(false)}
-        >
-          <div
-            style={{
-              background: 'rgba(255,255,255,0.5)',
-              backdropFilter: 'blur(15px)',
-              padding: '32px',
-              borderRadius: '16px',
-              minWidth: '320px',
-              border: '1.5px solid rgba(6,182,212,0.15)',
-              boxShadow: '0 28px 80px rgba(6,182,212,0.1), inset 0 1px 0 rgba(255,255,255,0.8)'
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3 style={{ margin: '0 0 20px', color: 'var(--text)', fontSize: '1.3rem' }}>Welcome Back</h3>
+        <div className="modal-overlay" onClick={() => setLoginModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3 className="modal-title">Welcome Back</h3>
             <input
               type="text"
               placeholder="Enter your name"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-              style={{
-                width: '100%',
-                padding: '12px 14px',
-                marginBottom: '16px',
-                background: 'rgba(255,255,255,0.4)',
-                border: '1.5px solid rgba(6,182,212,0.2)',
-                borderRadius: '10px',
-                color: 'var(--text)',
-                fontSize: '14px',
-                boxSizing: 'border-box',
-                fontFamily: 'inherit'
-              }}
+              className="modal-input"
               onFocus={(e) => {
                 e.currentTarget.style.borderColor = 'var(--accent)'
                 e.currentTarget.style.background = 'rgba(255,255,255,0.6)'
@@ -217,21 +140,10 @@ export default function MenuDropdown() {
                 e.currentTarget.style.background = 'rgba(255,255,255,0.4)'
               }}
             />
-            <div style={{ display: 'flex', gap: '12px' }}>
+            <div className="modal-actions">
               <button
                 onClick={handleLogin}
-                style={{
-                  flex: 1,
-                  padding: '11px',
-                  background: 'linear-gradient(135deg, #06b6d4, #0891b2)',
-                  color: '#ffffff',
-                  border: 'none',
-                  borderRadius: '10px',
-                  fontWeight: '700',
-                  cursor: 'pointer',
-                  fontSize: '13px',
-                  transition: 'all .2s ease'
-                }}
+                className="modal-btn"
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-2px)'
                   e.currentTarget.style.boxShadow = '0 8px 20px rgba(6,182,212,0.25)'
@@ -245,18 +157,7 @@ export default function MenuDropdown() {
               </button>
               <button
                 onClick={() => setLoginModal(false)}
-                style={{
-                  flex: 1,
-                  padding: '11px',
-                  background: 'rgba(255,255,255,0.3)',
-                  color: 'var(--muted)',
-                  border: '1.5px solid rgba(6,182,212,0.1)',
-                  borderRadius: '10px',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  fontSize: '13px',
-                  transition: 'all .2s ease'
-                }}
+                className="modal-btn cancel"
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = 'rgba(0,0,0,0.05)'
                 }}
@@ -279,21 +180,7 @@ function MenuItemButton({ icon, label, onClick, isAuth, isDanger }) {
   return (
     <button
       onClick={onClick}
-      style={{
-        width: '100%',
-        padding: '12px 16px',
-        textAlign: 'left',
-        background: 'transparent',
-        border: 'none',
-        color: isDanger ? '#dc2626' : isAuth ? 'var(--accent)' : 'var(--text)',
-        cursor: 'pointer',
-        fontSize: '13px',
-        fontWeight: isAuth || isDanger ? '600' : '500',
-        transition: 'all .15s cubic-bezier(0.4,0,0.2,1)',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px'
-      }}
+      className={`menu-item-btn ${isDanger ? 'danger' : ''} ${isAuth ? 'auth' : ''}`}
       onMouseEnter={(e) => {
         e.currentTarget.style.background = isDanger 
           ? 'rgba(220,38,38,0.08)' 
@@ -307,7 +194,7 @@ function MenuItemButton({ icon, label, onClick, isAuth, isDanger }) {
         e.currentTarget.style.paddingLeft = '16px'
       }}
     >
-      <span style={{ fontSize: '16px', display: 'flex', alignItems: 'center' }}>{icon}</span>
+      <span className="menu-item-icon">{icon}</span>
       <span>{label}</span>
     </button>
   )
