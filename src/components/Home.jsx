@@ -26,6 +26,9 @@ export default function Home({onOpenDashboard}){
 
   const currentInstrument = allInstruments[currentInstrumentIdx]
   const instrumentInfo = metadata[currentInstrument] || { desc: 'Surgical instrument for precision procedures', category: 'Instruments' }
+  const slug = currentInstrument ? currentInstrument.replace(/[^a-z0-9]+/gi, '_').toLowerCase() : 'instrument'
+  const localImg = `/images/${slug}.jpg`
+  const fallbackImg = `https://picsum.photos/seed/${encodeURIComponent(currentInstrument)}/400/300`
 
   const filtered = useMemo(() => {
     if (!query) return categories
@@ -109,7 +112,7 @@ export default function Home({onOpenDashboard}){
             border:'1px solid rgba(79,209,197,0.2)',
             overflow:'hidden'
           }}>
-            <img src={`https://picsum.photos/seed/${currentInstrument}/400/300`} alt={currentInstrument} style={{width:'100%', height:'100%', objectFit:'cover'}} />
+            <img src={localImg} onError={(e)=>{e.currentTarget.onerror=null; e.currentTarget.src=fallbackImg}} alt={currentInstrument} style={{width:'100%', height:'100%', objectFit:'cover'}} />
           </div>
 
           {/* Instrument Details */}
